@@ -55,7 +55,8 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions,
 
     def print_stage_position_if_debug(comment=""):
         if debug_mode:
-            print("Stage position: {} {}".format(-s1.get_position, comment))
+            position = -s1.get_position()
+            print("Stage position: {} {}".format(position, comment))
 
     for i, dz in enumerate(dzs):
         #Move to an absolution location
