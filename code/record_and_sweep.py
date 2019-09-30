@@ -46,24 +46,36 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions,
     for i in range(1, len(dzs)):
         dzs[i] = zs[i] - zs[i-1]
 
-    print(dzs)
+    if debug_mode:
+        print("Stage displacements:")
+        print(dzs)
 
+        print("Starting stage position: {}".format(-s1.get_position()))
+
+
+    def print_stage_position_if_debug(comment=""):
+        if debug_mode:
+            print("Stage position: {} {}".format(-s1.get_position, comment))
 
     for i, dz in enumerate(dzs):
         #Move to an absolution location
-
         #update position
+        print_stage_position_if_debug("Before move")
         s1.move_relative(-dz) #coordinate system is flipped in these setups
+        print_stage_position_if_debug("After move")
 
         #take picture
         data.append(Camera.take_picture(gain_dB, exposure_time_s,
             bitdepth=Bitdepth.TWELVE, debug_mode=debug_mode))
 
         print("Finished frame: {}/{}".format(i+1, len(dzs)))
+        pass
 
+    print_stage_position_if_debug("After sweep but before reset")
+    #return to the beginning
+    print(s1.move_relative(np.sum(dzs)))
 
-        #return to the beginning
-        print(s1.move_relative(np.sum(dzs)))
+    print_stage_position_if_debug("After reset")
 
 ##        #determine dimensions
 ##        n_x = camera.feature('Width').value
