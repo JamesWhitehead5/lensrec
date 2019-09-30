@@ -17,7 +17,7 @@ from PIL import Image
 from tools import ensure_no_overwrite, save_as_png, save_data, load_data
 from camera import Camera, Bitdepth
 
-def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions):
+def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions, debug_mode=False):
     """
     Sweeps the linear stage while recording camera frames at each point
     """
@@ -25,18 +25,18 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions)
     #range_mm = range_thou / 39.3701
 
     #Ensure camera is connected before moving stage
-    Camera.take_picture(gain_dB, exposure_time_s=0.1, bitdepth=Bitdepth.TWELVE)
+    Camera.take_picture(gain_dB, exposure_time_s=0.1, bitdepth=Bitdepth.TWELVE, debug_mode=debug_mode)
 
-    
+
 
 
     data = [] #list of recorded frames
     coords = None #coordinates for the aforementioned dimensions
-    
+
     #start the serial communiation over the USB to the Newport ESP301 motion controller
     #List of serial commands are given in the user manaul. You can check which port
     #to use in the 'Device Manager' window.
-    s1 = Stage()
+    s1 = Stage(debug=debug_mode)
     s1.motor_on()
     #Setup sweep
     zs = relative_positions
@@ -51,19 +51,20 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions)
 
     for i, dz in enumerate(dzs):
         #Move to an absolution location
-        
+
         #update position
         s1.move_relative(-dz) #coordinate system is flipped in these setups
 
         #take picture
-        data.append(Camera.take_picture(gain_dB, exposure_time_s, bitdepth=Bitdepth.TWELVE))
+        data.append(Camera.take_picture(gain_dB, exposure_time_s,
+            bitdepth=Bitdepth.TWELVE, debug_mode=debug_mode))
 
         print("Finished frame: {}/{}".format(i+1, len(dzs)))
 
 
         #return to the beginning
         print(s1.move_relative(np.sum(dzs)))
-        
+
 ##        #determine dimensions
 ##        n_x = camera.feature('Width').value
 ##        n_y = camera.feature('Height').value
@@ -86,7 +87,7 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions)
     return xr_data
 
 
-    
+
 
 def plot_data(xr_data, pathname):
     #plot a frame at an index
@@ -103,7 +104,7 @@ def plot_data(xr_data, pathname):
 
     filename = os.path.join(pathname, "image_array")
     plt.savefig(filename)
-    
+
 def plot_data_histograms(xr_data, pathname):
     #plot a frame at an index
     print("Plotting!!!")
@@ -120,7 +121,7 @@ def plot_data_histograms(xr_data, pathname):
         data = np.ndarray.flatten(data)
         axs[index].hist(data, bins=n_bins)
         axs[index].set_yscale('log')
-        
+
     filename = os.path.join(pathname, "log_hist_array ")
     plt.savefig(filename)
 
@@ -134,9 +135,8 @@ if __name__=='__main__':
     xr_data = aquire_sweep(exposure_time_s=0.5, gain_dB=0., frames=5, range_mm=0.4)
 
     save_data(xr_data, filename)
-    
+
     #reload the file
     xr_data = load_data(filename)
 
     plot_data(xr_data)
-    

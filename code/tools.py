@@ -14,7 +14,7 @@ def save_dict_to_txt(dic, fname):
         for key, val in dic.items():
             w.writerow([key, val])
 
-                
+
 def add_vars_to_dic(var_name_list: list, all_vars: dict) -> dict:
     """Takes a list of varible name strings and puts these
     varibales and their values into a dictionary"""
@@ -55,7 +55,7 @@ def query_yes_no(question, default="no"):
             sys.stdout.write("Please respond with 'yes' or 'no' "
                              "(or 'y' or 'n').\n")
 
-        
+
 def _testbench_save_dict_to_txt():
 
     a = 4
@@ -107,7 +107,7 @@ def save_xarray_as_16bit_tiff(xr_data:xarray, path):
         data = xr_data.isel(zs=i).data
         filename = os.path.join(path, "z_{0:.3f}mm.png".format(np.round(z, 3)))
         save_as_16bit_tiff(data, filename)
-        
+
 def save_as_16bit_tiff(data: np.array, filename):
     assert data.dtype == np.uint16, "Data type should be unsigned 16 bit"
     data = np.left_shift(data, 4)
@@ -115,7 +115,7 @@ def save_as_16bit_tiff(data: np.array, filename):
     #plt.imshow(data/np.max(data))
     plt.show()
     cv2.imwrite(filename + ".tiff", data)
-    
+
 
 def save_data(xr_data, filename):
     print("\nSaving the data to the hard drive. Filename: {}".format(filename))
@@ -149,6 +149,16 @@ def save_single_for_ndarray(data, file):
     print("SAving files to hard drive")
     im = Image.fromarray(data)
     im.save(file)
+
+def generate_toy_image() -> np.ndarray:
+    """Generates a random color image"""
+    shape = (1216, 1936, 3)
+    #shape = (4, 5, 3)
+    data = np.random.randint(low=0, high=2**16, size=np.prod(shape), dtype=np.uint16).reshape(shape)
+
+    #make data 12 bit
+    data = np.right_shift(data, 4)
+    return data
 
 
 if __name__=='__main__':

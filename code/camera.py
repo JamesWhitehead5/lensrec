@@ -1,6 +1,6 @@
 from pymba import Vimba, VimbaException
 import os
-from tools import save_single_for_ndarray
+from tools import save_single_for_ndarray, generate_toy_image
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,16 +19,19 @@ class Camera():
     PIXEL_FORMAT = {Bitdepth.EIGHT: 'BayerRG8',
                     Bitdepth.TWELVE: 'BayerRG12',
                     }
-    
-    def take_picture(gain_dB, exposure_time_s, bitdepth=Bitdepth.EIGHT, props={}) -> np.ndarray:
 
-        
+    def take_picture(gain_dB, exposure_time_s, bitdepth=Bitdepth.EIGHT,
+        props={}, debug_mode=False) -> np.ndarray:
+
+
         props['ExposureTimeAbs'] = int(exposure_time_s*1e6) #exposure time in us
         props['Gain'] = gain_dB #gain in dB
         props['BlackLevel'] = 0
         props['PixelFormat'] = Camera.PIXEL_FORMAT[bitdepth]
 
-
+        if debug_mode:
+            time.sleep(exposure_time_s)
+            return generate_toy_image()
         #Connect to the Prosilica GT camera via a Power over Ethernet cable. Make
         #sure that the drivers are installed. This is tested the the Vimba 3.0 SDK.
         with Vimba() as vimba: #start camera interface
@@ -38,14 +41,14 @@ class Camera():
             except VimbaException:
                 print("It is likely that the VimbaViewer is open. \
                 \nOnly a single program can access the camera at a time")
-                    
+
             camera.feature('ExposureTimeAbs').value = props['ExposureTimeAbs']
-            camera.feature('Gain').value = props['Gain'] 
+            camera.feature('Gain').value = props['Gain']
             camera.feature("BlackLevel").value = props['BlackLevel']
             camera.feature("PixelFormat").value = props['PixelFormat']
             camera.arm('SingleFrame')
 
-     
+
             try:
                 frame = camera.acquire_frame(timeout_ms=int(exposure_time_s*1000 + 1000))
             except VimbaException as e:
@@ -68,11 +71,11 @@ class Camera():
     def _frame_to_image(frame) -> np.ndarray:
         """Converts RAW camera output frame to a RGB array"""
         image = frame.buffer_data_numpy()
-    
+
         #demosaic the data
         image2 = cv2.cvtColor(image, cv2.COLOR_BAYER_RG2RGB)
         return image2
-    
+
 
 
 
@@ -117,7 +120,7 @@ def _save_to_file(data: np.ndarray, fname) -> None:
     """Saves a 3D RGB numpy array to a png"""
     shifted_data = np.left_shift(data, 4)
     write_png(fname, shifted_data, bitdepth=16)
-        
+
 @timeit
 def _open_file(f) -> np.ndarray:
     #Tried Pillow/PIL, cv2, scipy, imageio
@@ -127,7 +130,7 @@ def _open_file(f) -> np.ndarray:
     data = np.array(list(map(np.uint16, image_gen)))
     data = data.reshape(nx, ny, 3)
     shifted_data = np.right_shift(data, 4)
-    
+
     return shifted_data
 
 def _describe_array(arr: np.ndarray) -> None:
@@ -182,7 +185,7 @@ def _test_save_and_load():
 def _test_save_and_load_with_camera():
     data1 = _aquire_image()
     _describe_array(data1)
-    
+
     f1 = os.path.join("./", "test1.png")
     f2 = os.path.join("./", "test2.png")
 
@@ -196,7 +199,7 @@ def _test_save_and_load_with_camera():
 
     if np.array_equal(data1, data2) and np.array_equal(data1, data3):
         print("Equal")
-    
+
 def _np_load_save_benchmark():
     f = os.path.join("./", "test.npy")
     data = _aquire_image()
@@ -213,15 +216,9 @@ def _np_load_save_benchmark():
     out = load()
 
     assert np.array_equal(data, out), "arrays are not the same"
-    
+
 if __name__=="__main__":
     #_test_save_and_load()
     #_test_save_and_load_with_camera()
     #_np_load_save_benchmark()
     aquire_image_and_log()
-
-    
-    
-    
-
-    

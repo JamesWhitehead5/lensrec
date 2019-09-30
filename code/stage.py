@@ -22,7 +22,7 @@ class Stage:
                             bytesize=serial.EIGHTBITS)
 
     def _write(self, command):
-        if debug:
+        if self.debug:
             raise ControllerDebugException("Cannot use random write command \
             when stage is in debug mode. Only specifically implemented methods \
             can be used")
@@ -38,13 +38,13 @@ class Stage:
         return raw_string.strip().decode()
 
     def get_position(self):
-        if debug:
+        if self.debug:
             return self.position
         else:
             return float(self._read("1TP"))
 
     def motor_on(self):
-        if debug:
+        if self.debug:
             self.motor_on = True
         else:
             self._write("1MO") #turn motor on
@@ -53,18 +53,18 @@ class Stage:
             assert output == '1', "Motor didn't turn on successfully!"
 
     def read_velocity(self):
-        if debug:
+        if self.debug:
             return 0
         else:
             v = self._read("1TV")
             return float(v)
 
     def move_absolute(self, x):
-        if debug:
+        if self.debug:
             raise ControllerDebugException("Cannot use move absolute \
             when stage is in debug mode. Only specifically implemented methods \
             can be used")
-        else
+        else:
             self._write("1PA+{}".format(x))
             vel = self.read_velocity()
 
@@ -75,12 +75,12 @@ class Stage:
         pass
 
     def move_relative(self, dx):
-        if debug:
+        if self.debug:
             if self.motor_on:
                 self.position += dx
                 return dx
             else:
-                return 0 
+                return 0
         else:
             x0 = self.get_position()
             self._write("1PR{}".format(dx))
@@ -97,7 +97,7 @@ class Stage:
 
 
     def close(self):
-        if not debug:
+        if not self.debug:
             self.ser.close()
         print("Bye bye")
 
