@@ -11,7 +11,7 @@ class Stage:
     def __init__(self, debug=False):
         self.debug = debug
         if debug:
-            self.motor_on = False
+            self.motor_is_on = False
             self.position = 0
         else:
             self.ser = serial.Serial('com7',
@@ -45,7 +45,7 @@ class Stage:
 
     def motor_on(self):
         if self.debug:
-            self.motor_on = True
+            self.motor_is_on = True
         else:
             self._write("1MO") #turn motor on
             output = self._read("1MO?")
@@ -76,7 +76,7 @@ class Stage:
 
     def move_relative(self, dx):
         if self.debug:
-            if self.motor_on:
+            if self.motor_is_on:
                 self.position += dx
                 return dx
             else:
