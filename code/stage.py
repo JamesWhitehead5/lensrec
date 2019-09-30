@@ -95,6 +95,8 @@ class Stage:
 #    def get_error_code(self):
 #        return int(self._read("TE?"))
 
+    def __str__(self):
+        return "Stage position: {}".format(self.get_position())
 
     def close(self):
         if not self.debug:
