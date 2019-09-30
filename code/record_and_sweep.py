@@ -24,6 +24,11 @@ def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions)
 
     #range_mm = range_thou / 39.3701
 
+    #Ensure camera is connected before moving stage
+    Camera.take_picture(gain_dB, exposure_time_s=0.1, bitdepth=Bitdepth.TWELVE)
+
+    
+
 
     data = [] #list of recorded frames
     coords = None #coordinates for the aforementioned dimensions
