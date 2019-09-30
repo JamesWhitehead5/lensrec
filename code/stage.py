@@ -45,7 +45,7 @@ class Stage:
 
     def motor_on(self):
         if debug:
-            slef.motor_on = True
+            self.motor_on = True
         else:
             self._write("1MO") #turn motor on
             output = self._read("1MO?")
@@ -76,8 +76,11 @@ class Stage:
 
     def move_relative(self, dx):
         if debug:
-            self.position += dx
-            return dx
+            if self.motor_on:
+                self.position += dx
+                return dx
+            else:
+                return 0 
         else:
             x0 = self.get_position()
             self._write("1PR{}".format(dx))
