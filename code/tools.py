@@ -86,20 +86,20 @@ def make_dir(path):
     else:
         print ("Successfully created the directory %s " % path)
 
-def save_as_png(xr_data: xarray, path):
-    make_dir(path)
-    print("SAving files to hard drive")
-
-    for i, z in enumerate(xr_data.coords['zs'].data):
-        data = xr_data.isel(zs=i).data
-        rescaled = (255.0 / data.max() * (data - data.min())).astype(np.uint8)
-        print(np.sum(np.sum(rescaled)))
-        im = Image.fromarray(rescaled)
-        #print("{0:05f}".format(0.1989899989))
-        filename = os.path.join(path, "z_{0:03f}mm.png".format(np.round(z, 3)))
-        im.save(filename)
-
-    print("Finished saving files to hard drive")
+##def save_as_png(xr_data: xarray, path):
+##    make_dir(path)
+##    print("SAving files to hard drive")
+##
+##    for i, z in enumerate(xr_data.coords['zs'].data):
+##        data = xr_data.isel(zs=i).data
+##        rescaled = (255.0 / data.max() * (data - data.min())).astype(np.uint8)
+##        print(np.sum(np.sum(rescaled)))
+##        im = Image.fromarray(rescaled)
+##        #print("{0:05f}".format(0.1989899989))
+##        filename = os.path.join(path, "z_{0:03f}mm.png".format(np.round(z, 3)))
+##        im.save(filename)
+##
+##    print("Finished saving files to hard drive")
 
 def save_xarray_as_16bit_tiff(xr_data:xarray, path):
     make_dir(path)
@@ -117,19 +117,19 @@ def save_as_16bit_tiff(data: np.array, filename):
     cv2.imwrite(filename + ".tiff", data)
 
 
-def save_data(xr_data, filename):
-    print("\nSaving the data to the hard drive. Filename: {}".format(filename))
-    pickle.dump(xr_data, open(filename, "wb" )) #save the data
-    print("Finished saving!")
+##def save_data(xr_data, filename):
+##    print("\nSaving the data to the hard drive. Filename: {}".format(filename))
+##    pickle.dump(xr_data, open(filename, "wb" )) #save the data
+##    print("Finished saving!")
 
-def load_data(filename):
-    print("Loading files from the hard drive: Filename: {}".format(filename))
-    xr_data = pickle.load(open(filename, "rb" ))
-    print("Finished loading!!!")
-    return xr_data
+##def load_data(filename):
+##    print("Loading files from the hard drive: Filename: {}".format(filename))
+##    xr_data = pickle.load(open(filename, "rb" ))
+##    print("Finished loading!!!")
+##    return xr_data
 
 def is_image(f):
-    image_extensions = ['jpg', 'jpeg', 'png', 'bmp']
+    image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'tiff']
     return any([f.endswith("." + extension) for extension in image_extensions])
 
 def get_image_files(path):
@@ -145,10 +145,10 @@ def mkdir_no_overwrite(pathname_out):
     else:
         print ("Successfully created the directory %s " % pathname_out)
 
-def save_single_for_ndarray(data, file):
-    print("SAving files to hard drive")
-    im = Image.fromarray(data)
-    im.save(file)
+##def save_single_for_ndarray(data, file):
+##    print("SAving files to hard drive")
+##    im = Image.fromarray(data)
+##    im.save(file)
 
 def generate_toy_image() -> np.ndarray:
     """Generates a random color image"""

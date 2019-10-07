@@ -107,6 +107,8 @@ venv.bak/
 images/
 images_old/
 
+.tiff
+
 # Copyrighted manuals
 reference/GigE_Features_Reference.pdf
 reference/ESP301-User-s-Manual.pdf
