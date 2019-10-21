@@ -36,6 +36,7 @@ class Display():
         self.display_thread.join()
 
     def display_full_screen(self, image, scale):
+        # displays full screen
         screen = screeninfo.get_monitors()[1]
         s_w, s_h = screen.width, screen.height
         i_w, i_h, _ = np.shape(image)

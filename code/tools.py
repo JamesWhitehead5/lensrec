@@ -105,7 +105,7 @@ def save_xarray_as_16bit_tiff(xr_data:xarray, path):
     make_dir(path)
     for i, z in enumerate(xr_data.coords['zs'].data):
         data = xr_data.isel(zs=i).data
-        filename = os.path.join(path, "z_{0:.3f}mm.png".format(np.round(z, 3)))
+        filename = os.path.join(path, "z_{0:.3f}mm".format(np.round(z, 3)))
         save_as_16bit_tiff(data, filename)
 
 def save_as_16bit_tiff(data: np.array, filename):
@@ -129,7 +129,8 @@ def save_as_16bit_tiff(data: np.array, filename):
 ##    return xr_data
 
 def is_image(f):
-    image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'tiff']
+    image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'tiff',\
+                        'JPG', 'JPEG', 'PNG', 'BMP', 'TIF', 'TIFF']
     return any([f.endswith("." + extension) for extension in image_extensions])
 
 def get_image_files(path):

@@ -39,8 +39,9 @@ class Camera():
             try:
                 camera.open()
             except VimbaException:
-                print("It is likely that the VimbaViewer is open. \
-                \nOnly a single program can access the camera at a time")
+                message = "It is likely that the VimbaViewer is open. \
+                    (Only a single program can access the camera at a time)"
+                raise RuntimeError(message)
 
             camera.feature('ExposureTimeAbs').value = props['ExposureTimeAbs']
             camera.feature('Gain').value = props['Gain']

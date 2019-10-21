@@ -14,13 +14,15 @@ from stage import Stage
 import sys
 import os
 from PIL import Image
-from tools import ensure_no_overwrite, save_as_png, save_data, load_data
+#from tools import save_data, load_data
 from camera import Camera, Bitdepth
 
 def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions, debug_mode=False):
     """
     Sweeps the linear stage while recording camera frames at each point
     """
+
+    relative_positions = np.array(relative_positions)
 
     #range_mm = range_thou / 39.3701
 
