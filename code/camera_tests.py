@@ -10,7 +10,7 @@ import cv2
 import xarray
 import pickle
 import os.path
-from Stage import Stage
+from code.stage import Stage
 import sys
 import os
 from PIL import Image

@@ -2,11 +2,8 @@ import csv
 import xarray
 import os
 import sys
-from PIL import Image
 import numpy as np
 import cv2
-from camera_bitdepth_tests import _describe_array
-import matplotlib.pyplot as plt
 
 def save_dict_to_txt(dic, fname):
     with open(fname, "w") as f:
@@ -101,21 +98,28 @@ def make_dir(path):
 ##
 ##    print("Finished saving files to hard drive")
 
-def save_xarray_as_16bit_tiff(xr_data:xarray, path):
+def save_xarray_as_16bit_tiff(xr_data:xarray, path, prefix="", no_overwrite=False):
     make_dir(path)
     for i, z in enumerate(xr_data.coords['zs'].data):
         data = xr_data.isel(zs=i).data
-        filename = os.path.join(path, "z_{0:.3f}mm".format(np.round(z, 3)))
-        save_as_16bit_tiff(data, filename)
+        filename = os.path.join(path, "{0}z_{1:.3f}mm".format(prefix, np.round(z, 3)))
+        save_as_16bit_tiff(data, filename, no_overwrite)
 
-def save_as_16bit_tiff(data: np.array, filename):
+def save_as_16bit_tiff(data: np.array, filename, no_overwrite=False):
     assert data.dtype == np.uint16, "Data type should be unsigned 16 bit"
     data = np.left_shift(data, 4)
-    #_describe_array(data)
-    #plt.imshow(data/np.max(data))
-    plt.show()
-    cv2.imwrite(filename + ".tiff", data)
+    save_as_tiff(data, filename, no_overwrite)
 
+def save_as_8bit_tiff(data: np.array, filename, no_overwrite=False):
+    assert data.dtype == np.uint8, "Data type should be unsigned 16 bit"
+    save_as_tiff(data, filename, no_overwrite)
+
+
+def save_as_tiff(data: np.array, filename, no_overwrite=False):
+    complete_filename = filename + ".tiff"
+    if no_overwrite:
+        ensure_no_overwrite(complete_filename)
+    cv2.imwrite(complete_filename, data)
 
 ##def save_data(xr_data, filename):
 ##    print("\nSaving the data to the hard drive. Filename: {}".format(filename))

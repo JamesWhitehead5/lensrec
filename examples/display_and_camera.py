@@ -26,7 +26,7 @@ def aquire_slidshow(pathname_out, number=-1):
         out_file = os.path.join(pathname_out, os.path.basename(image_file))
         out_file = os.path.splitext(out_file)[0]
 
-        props = {'display image': disp_image, 'output file': out_file}
+        props = {'display image': disp_image}
         cam_image = Camera.take_picture(
             gain_dB=gain_dB,
             exposure_time_s=exposure_time_s,

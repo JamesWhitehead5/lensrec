@@ -1,6 +1,6 @@
 from pymba import Vimba, VimbaException
 import os
-from tools import generate_toy_image
+from code.tools import generate_toy_image
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
