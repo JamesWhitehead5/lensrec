@@ -1,3 +1,4 @@
+import os
 import sys
 
 from code.camera_tests import save_data, load_data
@@ -12,17 +13,21 @@ from code.tools import ensure_no_overwrite
 import numpy as np
 if __name__=='__main__':
     # make sure that folder has been created
-    filename = './data/test.pickle'
+    pathname = "data"
+    filename = os.path.join(pathname, 'test.pickle')
 
     # make sure that the selected file hasn't already been created
     ensure_no_overwrite(filename)
 
+    # make sure that I can write to the file
+    save_data(None, filename)
+
     # run the sweep
-    relative_positions = np.linspace(0, 1, 3);
-    xr_data = aquire_sweep(exposure_time_s=0.5, gain_dB=0., current_position=9, relative_positions=relative_positions)
+    relative_positions = np.linspace(-3, 3, 3);
+    xr_data = aquire_sweep(exposure_time_s=0.050, gain_dB=0., current_position=9, relative_positions=relative_positions)
     save_data(xr_data, filename)
 
-    # reload the file
-    xr_data = load_data(filename)
+    # # reload the file
+    # xr_data = load_data(filename)
 
-    plot_data(xr_data)
+    plot_data(xr_data, pathname)

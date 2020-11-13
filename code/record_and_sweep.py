@@ -10,12 +10,12 @@ import cv2
 import xarray
 import pickle
 import os.path
-from code.stage import Stage
+from stage import Stage
 import sys
 import os
 from PIL import Image
 # from tools import save_data, load_data
-from code.camera import Camera, Bitdepth
+from camera import Camera, Bitdepth
 
 
 def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions, debug_mode=False):
