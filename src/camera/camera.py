@@ -1,6 +1,5 @@
 from pymba import Vimba, VimbaException
 import os
-from tools import generate_toy_image
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,6 +9,7 @@ import time
 import csv
 from enum import Enum
 
+from ..tools import generate_toy_image, timeit
 
 class Bitdepth(Enum):
         EIGHT = 1
@@ -49,7 +49,6 @@ class Camera():
             camera.feature("PixelFormat").value = props['PixelFormat']
             camera.arm('SingleFrame')
 
-
             try:
                 frame = camera.acquire_frame(timeout_ms=int(exposure_time_s*1000 + 1000))
             except VimbaException as e:
@@ -78,34 +77,16 @@ class Camera():
         return image2
 
 
-
-
-
-##Testbenches and examples for the Camera object
-
-
-def timeit(method):
-    def timed(*args, **kw):
-        ts = time.time()
-        result = method(*args, **kw)
-        te = time.time()
-        if 'log_time' in kw:
-            name = kw.get('log_name', method.__name__.upper())
-            kw['log_time'][name] = int((te - ts) * 1000)
-        else:
-            print('%r  %2.2f ms' % \
-                  (method.__name__, (te - ts) * 1000))
-        return result
-    return timed
-
 def aquire_image_and_log():
     props = {'one': 'two'}
     Camera.take_picture(gain_dB=40, exposure_time_s=0.05, props=props)
     fname = os.path.join('./', "test1.out")
     Camera._save_property_data(props, fname)
 
+
 def _aquire_image() -> np.ndarray:
     return Camera.take_picture(gain_dB=40, exposure_time_s=0.05)
+
 
 def _display_image_histogram(data: np.ndarray) -> None:
     """Plots a log histogram for image values"""
@@ -116,11 +97,13 @@ def _display_image_histogram(data: np.ndarray) -> None:
     ax.set_yscale('log')
     plt.show()
 
+
 @timeit
 def _save_to_file(data: np.ndarray, fname) -> None:
     """Saves a 3D RGB numpy array to a png"""
     shifted_data = np.left_shift(data, 4)
     write_png(fname, shifted_data, bitdepth=16)
+
 
 @timeit
 def _open_file(f) -> np.ndarray:
@@ -134,6 +117,7 @@ def _open_file(f) -> np.ndarray:
 
     return shifted_data
 
+
 def _describe_array(arr: np.ndarray) -> None:
     """prints array properties"""
     print("Array shape: {}".format(np.shape(arr)))
@@ -143,10 +127,12 @@ def _describe_array(arr: np.ndarray) -> None:
     print("Min: {}".format(np.min(arr)))
     print()
 
+
 def _determine_bit_depth(numbers: np.ndarray) -> np.uint16:
     """Performs a bitwise or operator between all elements in the array and returns the result"""
     numbers_flat = np.ndarray.flatten(numbers)
     return np.bitwise_or.reduce(numbers_flat)
+
 
 def _generate_toy_image() -> np.ndarray:
     """Generates a random color image"""
@@ -157,6 +143,7 @@ def _generate_toy_image() -> np.ndarray:
     #make data 12 bit
     data = np.right_shift(data, 4)
     return data
+
 
 def _test_save_and_load():
     #generate data to save
@@ -183,6 +170,7 @@ def _test_save_and_load():
     #save the data
     _save_to_file(data=toy_data_load, fname=f2)
 
+
 def _test_save_and_load_with_camera():
     data1 = _aquire_image()
     _describe_array(data1)
@@ -200,6 +188,7 @@ def _test_save_and_load_with_camera():
 
     if np.array_equal(data1, data2) and np.array_equal(data1, data3):
         print("Equal")
+
 
 def _np_load_save_benchmark():
     f = os.path.join("./", "test.npy")

@@ -6,8 +6,7 @@ import numpy as np
 import screeninfo
 import time
 import threading
-import os
-from tools import get_image_files
+from src.tools import get_image_files
 
 
 

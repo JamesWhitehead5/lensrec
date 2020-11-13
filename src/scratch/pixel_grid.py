@@ -1,7 +1,5 @@
 import numpy as np
-import cv2
-import matplotlib.pyplot as plt
-from tools import save_as_16bit_tiff
+from src.tools import save_as_16bit_tiff
 
 n_tile = 1024
 tile = np.zeros(shape=(n_tile, n_tile), dtype=np.uint16)

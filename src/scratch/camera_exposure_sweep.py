@@ -29,7 +29,7 @@ def take_a_picture(exposure_time_s, gain_dB):
         camera.feature('Gain').value = gain_dB #gain in dB
         camera.feature("BlackLevel").value = 0
         camera.arm('SingleFrame')
-        
+
         try:
             t_start = time.time()
             print("Started capture of image")
@@ -45,7 +45,7 @@ def take_a_picture(exposure_time_s, gain_dB):
             else:
                 raise
 
-        
+
         #determine dimensions
         n_x = camera.feature('Width').value
         n_y = camera.feature('Height').value
@@ -57,11 +57,11 @@ def take_a_picture(exposure_time_s, gain_dB):
         camera.disarm()
         camera.close()
 
-       
+
     #process the data
     PIXEL_FORMATS_CONVERSIONS = {
         'BayerRG8': cv2.COLOR_BAYER_RG2RGB,
-    }  
+    }
 
     #demosaic the data
     try:
@@ -76,40 +76,6 @@ def take_a_picture(exposure_time_s, gain_dB):
     colors = ['r', 'g', 'b']
     xr_data=xarray.DataArray(image, coords={'y': y_coords, 'x': x_coords, 'rgb': colors, 'time': exposure_time_s, 'gain': gain_dB}, dims=['y', 'x', 'rgb'])
     return xr_data
-
-#https://stackoverflow.com/questions/3041986/apt-command-line-interface-like-yes-no-input
-def query_yes_no(question, default="no"):
-    """Ask a yes/no question via raw_input() and return their answer.
-
-    "question" is a string that is presented to the user.
-    "default" is the presumed answer if the user just hits <Enter>.
-        It must be "yes" (the default), "no" or None (meaning
-        an answer is required of the user).
-
-    The "answer" return value is True for "yes" or False for "no".
-    """
-    valid = {"yes": True, "y": True, "ye": True,
-             "no": False, "n": False}
-    if default is None:
-        prompt = " [y/n] "
-    elif default == "yes":
-        prompt = " [Y/n] "
-    elif default == "no":
-        prompt = " [y/N] "
-    else:
-        raise ValueError("invalid default answer: '%s'" % default)
-
-    while True:
-        sys.stdout.write(question + prompt)
-        choice = input().lower()
-        if default is not None and choice == '':
-            return valid[default]
-        elif choice in valid:
-            return valid[choice]
-        else:
-            sys.stdout.write("Please respond with 'yes' or 'no' "
-                             "(or 'y' or 'n').\n")
-
 
 if __name__=='__main__':
     filename = './dose_sweep.pickle'
@@ -130,9 +96,9 @@ if __name__=='__main__':
 
         gains = np.linspace(0, 40, n_gain)
         times = np.linspace(0.1, 75, n_exposure_time) #max time is 75-100
-        
 
-        images = [[take_a_picture(exposure_time, gain) for gain in gains] for exposure_time in times] 
+
+        images = [[take_a_picture(exposure_time, gain) for gain in gains] for exposure_time in times]
 
 
         #images=xarray.DataArray(images, coords=[gains, times], dims=['gains', 'times'])
@@ -145,7 +111,7 @@ if __name__=='__main__':
         pickle.dump(images, open(filename, "wb" )) #save the data
         print("Finished saving!")
 
-    
+
     #reload the file
     print("Loading files from the hard drive: Filename: {}".format(filename))
     images = pickle.load(open(filename, "rb" ))
@@ -165,6 +131,6 @@ if __name__=='__main__':
             gain_nice = np.round(gain.data, 1)
             time_nice = np.round(time.data, 1)
             axs[i, j].title.set_text('Gain(dB): {}, Time(s): {}'.format(gain_nice, time_nice))
-            
-        
+
+
     plt.show()

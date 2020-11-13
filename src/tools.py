@@ -1,4 +1,7 @@
+"""General purpose tools"""
+
 import csv
+import pickle
 import xarray
 import os
 import sys
@@ -121,16 +124,16 @@ def save_as_tiff(data: np.array, filename, no_overwrite=False):
         ensure_no_overwrite(complete_filename)
     cv2.imwrite(complete_filename, data)
 
-##def save_data(xr_data, filename):
-##    print("\nSaving the data to the hard drive. Filename: {}".format(filename))
-##    pickle.dump(xr_data, open(filename, "wb" )) #save the data
-##    print("Finished saving!")
+def save_data(xr_data, filename):
+   print("\nSaving the data to the hard drive. Filename: {}".format(filename))
+   pickle.dump(xr_data, open(filename, "wb" )) #save the data
+   print("Finished saving!")
 
-##def load_data(filename):
-##    print("Loading files from the hard drive: Filename: {}".format(filename))
-##    xr_data = pickle.load(open(filename, "rb" ))
-##    print("Finished loading!!!")
-##    return xr_data
+def load_data(filename):
+   print("Loading files from the hard drive: Filename: {}".format(filename))
+   xr_data = pickle.load(open(filename, "rb" ))
+   print("Finished loading!!!")
+   return xr_data
 
 def is_image(f):
     image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'tif', 'tiff',\
@@ -150,10 +153,10 @@ def mkdir_no_overwrite(pathname_out):
     else:
         print ("Successfully created the directory %s " % pathname_out)
 
-##def save_single_for_ndarray(data, file):
-##    print("SAving files to hard drive")
-##    im = Image.fromarray(data)
-##    im.save(file)
+# def save_single_for_ndarray(data, file):
+#    print("SAving files to hard drive")
+#    im = Image.fromarray(data)
+#    im.save(file)
 
 def generate_toy_image() -> np.ndarray:
     """Generates a random color image"""
@@ -164,6 +167,21 @@ def generate_toy_image() -> np.ndarray:
     #make data 12 bit
     data = np.right_shift(data, 4)
     return data
+
+
+def timeit(method):
+    def timed(*args, **kw):
+        ts = time.time()
+        result = method(*args, **kw)
+        te = time.time()
+        if 'log_time' in kw:
+            name = kw.get('log_name', method.__name__.upper())
+            kw['log_time'][name] = int((te - ts) * 1000)
+        else:
+            print('%r  %2.2f ms' % \
+                  (method.__name__, (te - ts) * 1000))
+        return result
+    return timed
 
 
 if __name__=='__main__':

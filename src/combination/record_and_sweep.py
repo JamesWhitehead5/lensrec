@@ -1,21 +1,16 @@
 #!/bin/env/python3
 
-from pymba import Vimba, VimbaException
-# from display_frame import display_frame
-import serial
-import time
+"""Sweeps the stage while taking an image each frame"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-import cv2
 import xarray
-import pickle
-import os.path
-from stage import Stage
-import sys
 import os
-from PIL import Image
-# from tools import save_data, load_data
-from camera import Camera, Bitdepth
+import os.path
+
+from ..stage import Stage
+from ..camera import Camera, Bitdepth
+from ..tools import ensure_no_overwrite, save_data, load_data
 
 
 def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions, debug_mode=False):

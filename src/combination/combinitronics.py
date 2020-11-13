@@ -1,15 +1,13 @@
-import sys
-sys.path.append(r"C:\Users\IR-Computer\NOISE_data\Common\motion_controller_camera")
-from tools import get_image_files, mkdir_no_overwrite, save_single_for_ndarray
+# sys.path.append(r"C:\Users\IR-Computer\NOISE_data\Common\motion_controller_camera")
+from src.tools import get_image_files, mkdir_no_overwrite
 import os
-from display import Display
+from ..display import Display
 import cv2
-from camera import Camera, Bitdepth
+from ..camera import Camera, Bitdepth
 
 def aquire_slidshow(pathname_out, number=-1):
     images = get_image_files("./images/")
     mkdir_no_overwrite(pathname_out)
-    
 
     gain_dB = 0
     exposure_time_s = 1
@@ -32,18 +30,9 @@ def aquire_slidshow(pathname_out, number=-1):
             props=props,
             bitdepth=Bitdepth.EIGHT)
 
-        
-        save_single_for_ndarray(data=cam_image, file=out_file)
+        # save_single_for_ndarray(data=cam_image, file=out_file)
 
     disp.close()
 
 if __name__=="__main__":
     aquire_slidshow(pathname_out="test", number=5)
-    
-
-
-
-    
-    
-
-    

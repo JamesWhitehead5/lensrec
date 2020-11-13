@@ -1,0 +1,7 @@
+numpy
+xarray
+pyserial
+opencv-python
+pymba
+numpngw
+Pillow
