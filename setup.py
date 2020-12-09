@@ -31,7 +31,7 @@ setup(name='lensrec',
     author_email='james.whitehead490@gmail.com',
     url='https://github.com/JamesWhitehead5/lensrec',
     package_dir = {
-        '': 'src',
+        '': 'lensrec',
     },
     install_requires=[
         'numpy',
