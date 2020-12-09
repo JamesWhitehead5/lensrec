@@ -1,8 +1,8 @@
-from lensrec.tools import get_image_files, mkdir_no_overwrite
+from src.tools import get_image_files, mkdir_no_overwrite
 import os
-from ..display import Display
+from src.display import Display
 import cv2
-from ..camera import Camera, Bitdepth
+from src.camera import Camera, Bitdepth
 
 def aquire_slidshow(pathname_out, number=-1):
     images = get_image_files("./images/")

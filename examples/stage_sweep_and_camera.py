@@ -4,9 +4,9 @@ import time
 import numpy as np
 
 
-from lensrec.camera import Camera, Bitdepth
-from lensrec.stage import Stage, position_to_displacement
-from lensrec.tools import ensure_no_overwrite, save_as_16bit_tiff, make_dir
+from src.camera import Camera, Bitdepth
+from src.stage import Stage, position_to_displacement
+from src.tools import ensure_no_overwrite, save_as_16bit_tiff, make_dir
 
 if __name__=='__main__':
     # connect to stage

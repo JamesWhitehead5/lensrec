@@ -8,9 +8,9 @@ import xarray
 import os
 import os.path
 
-from ..stage import Stage
-from ..camera import Camera, Bitdepth
-from ..tools import ensure_no_overwrite, save_data, load_data
+from src.stage import Stage
+from src.camera import Camera, Bitdepth
+from src.tools import ensure_no_overwrite, save_data, load_data
 
 
 def aquire_sweep(exposure_time_s, gain_dB, current_position, relative_positions, debug_mode=False):
