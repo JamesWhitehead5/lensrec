@@ -6,12 +6,9 @@ import numpy as np
 import screeninfo
 import time
 import threading
-from lensrec.tools import get_image_files
-
-
+from ..tools import get_image_files
 
 ####Reference: https://gist.github.com/ronekko/dc3747211543165108b11073f929b85e
-
 class Display():
     def __init__(self):
         self._lock = threading.Lock()

@@ -48,7 +48,9 @@ setup(
         'pymba',
         'numpngw',
         'Pillow',
-        'matplotlib'
+        'matplotlib',
+        'png',
+        'screeninfo',
     ],
 
 

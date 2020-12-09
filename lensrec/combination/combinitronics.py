@@ -1,4 +1,3 @@
-# sys.path.append(r"C:\Users\IR-Computer\NOISE_data\Common\motion_controller_camera")
 from lensrec.tools import get_image_files, mkdir_no_overwrite
 import os
 from ..display import Display
