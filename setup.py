@@ -42,7 +42,7 @@ setup(name='lensrec',
         'numpngw',
         'Pillow',
         'matplotlib',
-        'png',
+        'pypng',
         'screeninfo',
     ],
      )
