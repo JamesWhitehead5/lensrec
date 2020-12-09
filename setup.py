@@ -15,5 +15,14 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires=['>=3.6'],
+    install_requires=[
+        'numpy',
+        'xarray',
+        'pyserial',
+        'opencv-python',
+        'pymba',
+        'numpngw',
+        'Pillow'
+    ]
 )
