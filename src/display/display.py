@@ -6,7 +6,7 @@ import numpy as np
 import screeninfo
 import time
 import threading
-from lensrec.tools import get_image_files
+from src.tools import get_image_files
 
 
 

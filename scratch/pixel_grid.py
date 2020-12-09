@@ -1,5 +1,5 @@
 import numpy as np
-from lensrec.tools import save_as_16bit_tiff
+from src.tools import save_as_16bit_tiff
 
 n_tile = 1024
 tile = np.zeros(shape=(n_tile, n_tile), dtype=np.uint16)
