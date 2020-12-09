@@ -3,7 +3,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="lensrec",
-    version="0.0.1",
+    version="0.0.2",
     author="James Whitehead",
     author_email="james.whitehead490@gmail.com",
     description="Tool for recording metasurface lenses in a motion control setup",
