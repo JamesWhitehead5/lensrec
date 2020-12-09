@@ -24,25 +24,24 @@ setup(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=[
-        'numpy',
-        'xarray',
-        'pyserial',
-        'opencv-python',
-        'pymba',
-        'numpngw',
-        'Pillow',
+        'numpy==1.16.4',
+        'xarray==0.12.3',
+        'pyserial==3.4',
+        'opencv-python==4.1.0',
+        'pymba==0.3.5',
+        '-ymba==0.3.5',
+        'numpngw==0.0.8',
+        'Pillow==6.1.0',
         'matplotlib',
-        'pypng',
-        'screeninfo',
+        'pypng==0.0.20',
+        'screeninfo==0.4',
+
     ],
 
 
 )
-
-
-
 
 # setup(name='lensrec',
 #     version='0.0.4',
