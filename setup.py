@@ -33,8 +33,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/JamesWhitehead5/lensrec",
-    # packages=setuptools.find_packages(),
-    packages=find_packages(where='src'),  # Required
+    packages=find_packages(),
+    # packages=find_packages(where='src'),  # Required
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
