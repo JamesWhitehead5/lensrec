@@ -7,10 +7,12 @@ import numpy as np
 from lensrec.camera import Camera, Bitdepth
 from lensrec.stage import Stage, position_to_displacement
 from lensrec.tools import ensure_no_overwrite, save_as_16bit_tiff, make_dir
+from lensrec.combination.record_and_sweep import
 
 if __name__=='__main__':
     # connect to stage
-    s1 = Stage() # remember to turn the motor on manually.
+    s1 = Stage()
+    s1.motor_on()
 
     # setup output path
     image_output_path = 'data'

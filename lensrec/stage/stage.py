@@ -7,6 +7,19 @@ class ControllerDebugException(Exception):
     pass
 
 
+@staticmethod
+def position_to_displacement(relative_positions):
+    """
+    Takes a list of coordinates in relation to the stage's current position
+    and convert them into a list of sequential displacements
+    """
+    dzs = np.zeros(len(relative_positions))
+    dzs[0] = relative_positions[0]
+    for i in range(1, len(dzs)):
+        dzs[i] = relative_positions[i] - relative_positions[i - 1]
+    return dzs
+
+
 class Stage:
     """
     Stage object that controls to the ESP300 motion controller
@@ -94,7 +107,8 @@ class Stage:
         pass
 
     def move_relative(self, dx: float):
-        """Moves a distance relative to current position"""
+        """Moves a distance relative to current position. Will not thread
+        while moving"""
         if self.debug:
             if self.motor_is_on:
                 self.position += dx
@@ -122,6 +136,7 @@ class Stage:
         if not self.debug:
             self.ser.close()
         print("Bye bye")
+
 
 if __name__=='__main__':
 
