@@ -1,6 +1,6 @@
 import sys
 sys.path.append(r"C:\Users\IR-Computer\NOISE_data\Common\motion_controller_camera\code")
-from src.tools import get_image_files, mkdir_no_overwrite, save_as_16bit_tiff
+from lensrec.tools import get_image_files, mkdir_no_overwrite, save_as_16bit_tiff
 import os
 from display import Display
 import cv2
