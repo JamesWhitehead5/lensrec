@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+from datetime import datetime
 import numpy as np
 
 
@@ -16,17 +17,16 @@ if __name__=='__main__':
     image_output_path = 'data'
     make_dir(image_output_path)
 
-    # make sure that the selected file hasn't already been created
-    ensure_no_overwrite(filename)
+
 
     relative_positions_mm = np.linspace(-1, 1, 3);
     stage_displacements_mm = position_to_displacement(relative_positions_mm)
 
-    print("Started sweep at {}".fromat(time.now()))
+    print("Started sweep at {}".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S")))
 
     # Iterate over the displacement
     for i, (z, dz) in enumerate(zip(relative_positions_mm, stage_displacements_mm)):
-        print("Started aquisition {}/{}".format(i + 1, len(relative_positions)))
+        print("Started aquisition {}/{}".format(i + 1, len(relative_positions_mm)))
 
         print("moving stage to {}mm".format(z))
         # move stage by dz
@@ -38,11 +38,15 @@ if __name__=='__main__':
         cam_image = Camera.take_picture(
             gain_dB=0,
             exposure_time_s=0.1,
-            props=props,
+            props={},
             bitdepth=Bitdepth.TWELVE,
         )
 
+        filename = str(i);
+        print(filename, image_output_path)
+        output_file = os.path.join(image_output_path, filename);
+        # ensure_no_overwrite(output_file) # make sure that the selected file hasn't already been created
         # ...and save it
-        save_as_16bit_tiff(data=cam_image, filename=out_file)
+        save_as_16bit_tiff(data=cam_image, filename=output_file)
 
-    print("Completed sweep")
+    print("Completed sweep at {}".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S")))

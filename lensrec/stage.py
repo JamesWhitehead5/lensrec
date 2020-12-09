@@ -1,5 +1,6 @@
 import serial
 import time
+import numpy as np
 
 class ControllerDebugException(Exception):
     """Thrown when a command is used when an unsupported command is used when
@@ -7,7 +8,6 @@ class ControllerDebugException(Exception):
     pass
 
 
-@staticmethod
 def position_to_displacement(relative_positions):
     """
     Takes a list of coordinates in relation to the stage's current position
