@@ -26,7 +26,7 @@ long_description = (here / 'README.md').read_text(encoding='utf-8')
 
 setup(
     name="lensrec",
-    version="0.0.2",
+    version="0.0.3",
     author="James Whitehead",
     author_email="james.whitehead490@gmail.com",
     description="Tool for recording metasurface lenses in a motion control setup",
