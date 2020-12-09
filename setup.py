@@ -31,7 +31,6 @@ setup(
         'pyserial==3.4',
         'opencv-python==4.1.0',
         'pymba==0.3.5',
-        '-ymba==0.3.5',
         'numpngw==0.0.8',
         'Pillow==6.1.0',
         'matplotlib',
