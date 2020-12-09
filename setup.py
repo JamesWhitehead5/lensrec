@@ -24,5 +24,6 @@ setuptools.setup(
         'pymba',
         'numpngw',
         'Pillow',
+        'matplotlib'
     ]
 )
