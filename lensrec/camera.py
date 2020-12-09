@@ -9,7 +9,7 @@ import time
 import csv
 from enum import Enum
 
-from src.tools import generate_toy_image, timeit
+from lensrec.tools import generate_toy_image, timeit
 
 class Bitdepth(Enum):
         EIGHT = 1
