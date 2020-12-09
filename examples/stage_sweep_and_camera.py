@@ -34,12 +34,12 @@ if __name__=='__main__':
         time.sleep(0.5) # wait for stage to settle
         print("moved stage to {}mm".format(-s1.get_position()))
 
-        # take picture...
+        # # take picture...
         cam_image = Camera.take_picture(
             gain_dB=0,
             exposure_time_s=0.1,
             props={},
-            bitdepth=Bitdepth.TWELVE,
+            bitdepth=Bitdepth.EIGHT,
         )
 
         filename = str(i);
