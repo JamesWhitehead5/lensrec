@@ -29,7 +29,7 @@ setup(
         'numpy==1.16.4',
         'xarray==0.12.3',
         'pyserial==3.4',
-        'opencv-python==4.1.2.30',
+        'opencv-python==4.2.0.32',
         'pymba==0.3.5',
         'numpngw==0.0.8',
         'Pillow==7.1.0',
