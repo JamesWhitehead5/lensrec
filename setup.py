@@ -32,7 +32,7 @@ setup(
         'opencv-python==4.1.2.30',
         'pymba==0.3.5',
         'numpngw==0.0.8',
-        'Pillow==7.1.0',
+        'Pillow==9.0.0',
         'matplotlib',
         'pypng==0.0.20',
         'screeninfo==0.4',
