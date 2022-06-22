@@ -26,7 +26,7 @@ setup(
     ],
     python_requires='>=3.7',
     install_requires=[
-        'numpy==1.16.4',
+        'numpy==1.22.0',
         'xarray==0.12.3',
         'pyserial==3.4',
         'opencv-python==4.1.2.30',
